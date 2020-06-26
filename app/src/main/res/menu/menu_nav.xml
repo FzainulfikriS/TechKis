@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home_menu"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_forum_menu"
+            android:title="Forum" />
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:title="Account">
+            <menu>
+                <item
+                    android:id="@+id/nav_profile_menu"
+                    android:visible="false"
+                    android:title="Profile" />
+                <item
+                    android:id="@+id/nav_bookmark_menu"
+                    android:visible="false"
+                    android:title="Bookmark" />
+                <item
+                    android:id="@+id/nav_signout_menu"
+                    android:visible="false"
+                    android:title="Sign Out" />
+                <item
+                    android:id="@+id/nav_signin_menu"
+                    android:title="Sign In" />
+            </menu>
+        </item>
+    </group>
+    <item
+        android:id="@+id/nav_admin_menu"
+        android:title="Admin"
+        android:visible="false">
+        <menu>
+            <item
+                android:id="@+id/nav_manageNews_menu"
+                android:title="Manage News" />
+            <item
+                android:id="@+id/nav_addNews_menu"
+                android:title="Add News" />
+        </menu>
+    </item>
+</menu>

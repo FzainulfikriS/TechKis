@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">TechKis</string>
+
+    <string name="openDrawerNavigation">Open Drawer Navigation</string>
+    <string name="closeDrawerNavigation">Close Drawer Navigation</string>
+</resources>

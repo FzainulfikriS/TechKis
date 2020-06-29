@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.activity_news_view.*
 import java.util.*
 import kotlin.collections.HashMap
 
-class NewsViewActivity : AppCompatActivity() {
+class NewsViewActivity : AppCompatActivity(), NewsCommentAdapter.ItemClickListener {
 
     private lateinit var newsID: String
     private lateinit var mDatabase: DatabaseReference
@@ -158,7 +158,7 @@ class NewsViewActivity : AppCompatActivity() {
                         rv_comment_newsView.apply {
                             layoutManager = LinearLayoutManager(this@NewsViewActivity)
                             mCommentAdapter = NewsCommentAdapter()
-                            mCommentAdapter.newsCommentAdapter(commentList)
+                            mCommentAdapter.newsCommentAdapter(commentList,this@NewsViewActivity)
                             adapter = mCommentAdapter
                         }
                     }
@@ -266,5 +266,12 @@ class NewsViewActivity : AppCompatActivity() {
                 .centerCrop()
                 .into(iv_thumbnail_newsView)
         }
+    }
+
+    override fun itemClickListener(commentsModel: CommentsModel) {
+        val userid = commentsModel.userID
+        val intent = Intent(this,ProfileActivity::class.java)
+        intent.putExtra("USER_ID_EXTRA",userid)
+        startActivity(intent)
     }
 }

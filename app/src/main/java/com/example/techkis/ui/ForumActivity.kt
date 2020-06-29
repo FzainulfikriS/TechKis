@@ -69,6 +69,9 @@ class ForumActivity : AppCompatActivity() {
                     startActivity(intent)
                     finish()
                 }
+                R.id.nav_profile_menu ->{
+                    startActivity(Intent(this@ForumActivity,ProfileActivity::class.java))
+                }
                 R.id.nav_signout_menu ->{
                     mAuth.signOut()
                     val editorPref = sharedPref.edit()

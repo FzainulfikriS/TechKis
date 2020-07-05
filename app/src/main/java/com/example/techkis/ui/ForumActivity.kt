@@ -59,6 +59,10 @@ class ForumActivity : AppCompatActivity() {
         drawerLayout_forum.addDrawerListener(menuToggle)
         menuToggle.syncState()
         navView_forum.setNavigationItemSelectedListener(onNavigationItemSelectedListener())
+
+        btn_addForum_forum.setOnClickListener {
+
+        }
     }
 
     /** BAGIAN NAVIGATION VIEW / DRAWER NAVIGATION DAN TOOLBAR **/

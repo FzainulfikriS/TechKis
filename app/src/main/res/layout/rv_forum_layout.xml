@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_title_forum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title Forum\nSapi sapi apa yang tidak makan rumput"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:maxLines="2"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/tv_commentCount_forum"/>
+            <TextView
+                android:id="@+id/tv_commentCount_forum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_by_forum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="By"
+                android:layout_marginEnd="8dp"
+                android:layout_centerVertical="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Suryana"
+                android:textStyle="bold"
+                android:layout_toEndOf="@+id/tv_by_forum"
+                android:layout_centerVertical="true"/>
+            <TextView
+                android:id="@+id/tv_tanggal_forum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sun, 20 Apr 2020"
+                android:layout_toStartOf="@id/tv_strip_forum"
+                android:layout_centerVertical="true"/>
+            <TextView
+                android:id="@+id/tv_strip_forum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" - "
+                android:textSize="12sp"
+                android:layout_toStartOf="@+id/tv_jam_forum"
+                android:layout_centerVertical="true"/>
+            <TextView
+                android:id="@+id/tv_jam_forum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="11:30 Am"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

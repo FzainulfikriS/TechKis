@@ -11,4 +11,10 @@
         <item name="android:textColorSecondary">#fff</item>
         <item name="android:textColorPrimary">#fff</item>
     </style>
+
+    <style name="EditTextTheme" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="colorOnSurface">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="boxStrokeWidth">4dp</item>
+    </style>
 </resources>

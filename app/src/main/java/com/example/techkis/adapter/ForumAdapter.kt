@@ -23,7 +23,7 @@ class ForumAdapter:RecyclerView.Adapter<ForumAdapter.ViewHolder>() {
 
         fun onBind(forumModel: ForumModel){
             judulForum.text = forumModel.judulForum
-//            namaAuthor.text = forumModel.namaAuthor
+            namaAuthor.text = forumModel.namaAuthor
             commentCount.text = forumModel.commentCount.toString()
             val timestamp = Calendar.getInstance()
             timestamp.timeInMillis = forumModel.timestampForum * 1000L

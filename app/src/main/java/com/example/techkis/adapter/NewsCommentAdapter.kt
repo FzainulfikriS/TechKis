@@ -25,7 +25,7 @@ class NewsCommentAdapter:RecyclerView.Adapter<NewsCommentAdapter.ViewHolder>() {
         val tanggal = v.tv_tanggal_rvComments
         val imageUser = v.iv_imageUser_rvComments
 
-        fun bind(commentsModel: CommentsModel, clickListener:ItemClickListener){
+        fun bind(commentsModel: CommentsModel,clickListener: ItemClickListener){
             val cal = Calendar.getInstance()
             cal.timeInMillis = commentsModel.commentTimestamp.toLong() * 1000
             fullName.text = commentsModel.userFullname
@@ -39,7 +39,7 @@ class NewsCommentAdapter:RecyclerView.Adapter<NewsCommentAdapter.ViewHolder>() {
         }
     }
 
-    fun newsCommentAdapter(commentsModel: List<CommentsModel>, clickListener: ItemClickListener){
+    fun newsCommentAdapter(commentsModel: List<CommentsModel>, clickListener:ItemClickListener){
         items = commentsModel
         mItemClickListener = clickListener
     }
@@ -58,7 +58,7 @@ class NewsCommentAdapter:RecyclerView.Adapter<NewsCommentAdapter.ViewHolder>() {
         holder.bind(items.get(position),mItemClickListener)
     }
 
-    interface ItemClickListener{
+    interface ItemClickListener {
         fun itemClickListener(commentsModel: CommentsModel)
     }
 }

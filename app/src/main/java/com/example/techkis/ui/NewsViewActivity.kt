@@ -13,17 +13,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.techkis.R
 import com.example.techkis.adapter.NewsCommentAdapter
 import com.example.techkis.model.CommentsModel
+import com.example.techkis.model.UsersModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_news_view.*
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class NewsViewActivity : AppCompatActivity(), NewsCommentAdapter.ItemClickListener {
@@ -40,7 +40,7 @@ class NewsViewActivity : AppCompatActivity(), NewsCommentAdapter.ItemClickListen
     private lateinit var prefUserFullname: String
     private lateinit var prefUserImage: String
 
-    private lateinit var commentList: MutableList<CommentsModel>
+    private lateinit var commentList: ArrayList<CommentsModel>
     private lateinit var mCommentAdapter: NewsCommentAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,9 +49,11 @@ class NewsViewActivity : AppCompatActivity(), NewsCommentAdapter.ItemClickListen
 
         newsID = intent.getStringExtra("NEWS_ID").toString()
         mDatabase = Firebase.database.reference
+
         mAuth = Firebase.auth
         mUserID = mAuth.currentUser?.uid.toString()
-        commentList = mutableListOf()
+        Log.w("UserID-NewsView",mUserID)
+        commentList = arrayListOf()
         var titleDialog = ""
         val currentUser = mAuth.currentUser
 
@@ -136,40 +138,64 @@ class NewsViewActivity : AppCompatActivity(), NewsCommentAdapter.ItemClickListen
             return
         }
         sendComment()
+
     }
 
     private fun getComment(){
-        mDatabase.child("news-comments").child(newsID).orderByChild("commentTimestamp")
-            .addValueEventListener(object : ValueEventListener{
-                override fun onCancelled(p0: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onDataChange(p0: DataSnapshot) {
-                    if(p0.exists()){
-                        commentList.clear()
-                        for (commentSnapshot in p0.children){
-                            val asd = commentSnapshot.getValue(CommentsModel::class.java)
-                            Log.w("TIMESTAMP",asd?.userID.toString())
-                            commentList.add(asd!!)
-                        }
-                        commentList.reverse()
-
-                        rv_comment_newsView.apply {
-                            layoutManager = LinearLayoutManager(this@NewsViewActivity)
-                            mCommentAdapter = NewsCommentAdapter()
-                            mCommentAdapter.newsCommentAdapter(commentList,this@NewsViewActivity)
-                            adapter = mCommentAdapter
-                        }
+        val databaseCommentRef = mDatabase.child("news-comments").child(newsID).orderByChild("commentTimestamp")
+        databaseCommentRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+            }
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    commentList.clear()
+                    for (commentSnapshot in p0.children) {
+                        val asd = commentSnapshot.getValue(CommentsModel::class.java)
+                        //commentList.add(asd!!)
+                        getUser(asd!!)
                     }
                 }
-            })
+            }
+        })
+    }
+
+    private fun getUser(commentsModel: CommentsModel){
+        mDatabase.child("users").child(commentsModel.userID).addListenerForSingleValueEvent(
+            object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                }
+                override fun onDataChange(p0: DataSnapshot) {
+                    val users = p0.getValue(UsersModel::class.java)
+                        commentList.add(
+                            CommentsModel(commentsModel.commentID,commentsModel.newsID,commentsModel.userID,
+                                users?.fullName!!,users.imageUrl,commentsModel.isiComment,commentsModel.commentTimestamp)
+                        )
+                    println("asd $commentList \n")
+                    updateCommentUserUI(commentList)
+                }
+            }
+        )
+    }
+
+    private fun updateCommentUserUI(iniCommentList: ArrayList<CommentsModel>) {
+        iniCommentList.reverse()
+        rv_comment_newsView.apply {
+            layoutManager = LinearLayoutManager(this@NewsViewActivity)
+            mCommentAdapter = NewsCommentAdapter()
+            mCommentAdapter.newsCommentAdapter(iniCommentList, this@NewsViewActivity)
+            adapter = mCommentAdapter
+        }
     }
     private fun sendComment(){
         val commentID = UUID.randomUUID().toString()
         val isiComment = et_comment_newsView.text.toString()
         val commentsTimestamp = System.currentTimeMillis() / 1000
-        val comments = CommentsModel(commentID,newsID,mUserID,prefUserFullname,prefUserImage,isiComment,commentsTimestamp.toString())
+        val comments = HashMap<String,Any>()
+        comments.put("userID",mUserID)
+        comments.put("commentID",commentID)
+        comments.put("isiComment",isiComment)
+        comments.put("commentTimestamp",commentsTimestamp.toString())
+        comments.put("newsID",newsID)
         mDatabase.child("news-comments").child(newsID).child(commentID).setValue(comments)
             .addOnCompleteListener {
             if(it.isSuccessful){

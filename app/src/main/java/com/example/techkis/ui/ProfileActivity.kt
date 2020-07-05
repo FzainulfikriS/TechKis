@@ -8,11 +8,17 @@ import android.content.SharedPreferences
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.techkis.R
+import com.example.techkis.adapter.NewsAdapter
+import com.example.techkis.adapter.NewsCommentAdapter
+import com.example.techkis.model.CommentsModel
+import com.example.techkis.model.NewsModel
 import com.example.techkis.model.UsersModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -26,7 +32,10 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_news_view.*
 import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.dialog_editprofil.*
 import kotlinx.android.synthetic.main.dialog_editprofil.view.*
 
 class ProfileActivity : AppCompatActivity() {
@@ -42,6 +51,8 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var email:String
     private lateinit var imageUri:String
     private lateinit var userID:String
+    private lateinit var mNewImageUri: Uri
+    private var cekNewImage: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -143,17 +154,67 @@ class ProfileActivity : AppCompatActivity() {
             .setPositiveButton("Edit",DialogInterface.OnClickListener { dialogInterface, i ->
                 fullName = editFullname.text.toString()
                 username = editUsername.text.toString()
+                if(cekNewImage == true){
+                    uploadImageToStorage(mNewImageUri)
+                    Log.w("IMAGE_URI_FIREBASE2","Berhasil")
+                }
+                else{
+                    updateUserData(fullName,username,imageUri)
+                }
             })
             .setNegativeButton("Cancel",DialogInterface.OnClickListener { dialogInterface, i ->
+                cekNewImage = false
                 dialogInterface.cancel()
             })
         dialogBuilder.create().show()
     }
 
+    @SuppressLint("InflateParams")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 1 && data != null){
-            val newImageUri = data.data
+            mNewImageUri = data.data!!
+            cekNewImage = true
         }
+    }
+
+    private fun uploadImageToStorage(newImageUri:Uri) {
+        val imageId = userID
+        val storageRef = mStorage.reference.child("images/$imageId")
+        var newImage = ""
+        storageRef.putFile(newImageUri).addOnCompleteListener {
+            if(it.isSuccessful){
+                storageRef.downloadUrl.addOnSuccessListener {
+                    newImage =  it.toString()
+                    imageUri = newImage
+                    updateUserData(fullName,username,newImage)
+                    Log.w("IMAGE_URI_FIREBASE1",newImage)
+                }
+            }
+        }
+    }
+
+    private fun updateUserData(fullname:String, username:String, newImageUri:String){
+        val newDataUser = HashMap<String,Any>()
+        newDataUser.put("fullName",fullname)
+        newDataUser.put("username",username)
+        newDataUser.put("imageUrl",newImageUri)
+
+        mDatabase.child("users").child(userID).updateChildren(newDataUser).addOnCompleteListener {
+            if(it.isSuccessful){
+                updateSharedPref(fullname,username,newImageUri)
+                updateProfileUi()
+            }
+        }
+        cekNewImage = false
+    }
+
+    private fun updateSharedPref(fullname: String,username: String,newImageUri: String){
+        val edit = sharedPref.edit()
+        edit.putString("FULL_NAME",fullname)
+        edit.putString("USER_NAME",username)
+        edit.putString("IMAGE_URL",newImageUri)
+        edit.apply()
+        edit.commit()
     }
 }

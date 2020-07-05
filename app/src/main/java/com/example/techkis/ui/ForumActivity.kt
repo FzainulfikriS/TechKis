@@ -13,6 +13,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import com.example.techkis.R
 import com.example.techkis.ui.admin.AddNewsActivity
+import com.example.techkis.ui.users.LoginActivity
+import com.example.techkis.ui.users.ProfileActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -21,7 +23,6 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_forum.*
-import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.nav_header_layout.view.*
 
 class ForumActivity : AppCompatActivity() {
@@ -70,7 +71,8 @@ class ForumActivity : AppCompatActivity() {
                     finish()
                 }
                 R.id.nav_profile_menu ->{
-                    startActivity(Intent(this@ForumActivity,ProfileActivity::class.java))
+                    startActivity(Intent(this@ForumActivity,
+                        ProfileActivity::class.java))
                 }
                 R.id.nav_signout_menu ->{
                     mAuth.signOut()

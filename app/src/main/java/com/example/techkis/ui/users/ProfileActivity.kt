@@ -1,4 +1,4 @@
-package com.example.techkis.ui
+package com.example.techkis.ui.users
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -13,12 +13,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.techkis.R
-import com.example.techkis.adapter.NewsAdapter
-import com.example.techkis.adapter.NewsCommentAdapter
-import com.example.techkis.model.CommentsModel
-import com.example.techkis.model.NewsModel
 import com.example.techkis.model.UsersModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -32,11 +27,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.activity_news_view.*
 import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.android.synthetic.main.dialog_editprofil.*
-import kotlinx.android.synthetic.main.dialog_editprofil.view.*
 
 class ProfileActivity : AppCompatActivity() {
 

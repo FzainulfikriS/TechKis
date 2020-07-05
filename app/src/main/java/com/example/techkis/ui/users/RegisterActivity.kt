@@ -1,4 +1,4 @@
-package com.example.techkis.ui
+package com.example.techkis.ui.users
 
 import android.content.Context
 import android.content.Intent
@@ -10,6 +10,7 @@ import android.util.Patterns
 import android.widget.Toast
 import com.example.techkis.R
 import com.example.techkis.model.UsersModel
+import com.example.techkis.ui.HomeActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference

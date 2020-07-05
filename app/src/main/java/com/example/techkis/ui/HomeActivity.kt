@@ -16,6 +16,9 @@ import com.example.techkis.R
 import com.example.techkis.adapter.NewsAdapter
 import com.example.techkis.model.NewsModel
 import com.example.techkis.ui.admin.AddNewsActivity
+import com.example.techkis.ui.news.NewsViewActivity
+import com.example.techkis.ui.users.LoginActivity
+import com.example.techkis.ui.users.ProfileActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth

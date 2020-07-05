@@ -1,4 +1,4 @@
-package com.example.techkis.ui
+package com.example.techkis.ui.news
 
 import android.content.Context
 import android.content.DialogInterface
@@ -14,11 +14,12 @@ import com.example.techkis.R
 import com.example.techkis.adapter.NewsCommentAdapter
 import com.example.techkis.model.CommentsModel
 import com.example.techkis.model.UsersModel
+import com.example.techkis.ui.users.LoginActivity
+import com.example.techkis.ui.users.ProfileActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_news_view.*
@@ -296,7 +297,7 @@ class NewsViewActivity : AppCompatActivity(), NewsCommentAdapter.ItemClickListen
 
     override fun itemClickListener(commentsModel: CommentsModel) {
         val userid = commentsModel.userID
-        val intent = Intent(this,ProfileActivity::class.java)
+        val intent = Intent(this, ProfileActivity::class.java)
         intent.putExtra("USER_ID_EXTRA",userid)
         startActivity(intent)
     }

@@ -11,19 +11,32 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.techkis.R
+import com.example.techkis.adapter.ForumAdapter
+import com.example.techkis.model.ForumModel
 import com.example.techkis.ui.admin.AddNewsActivity
+import com.example.techkis.ui.forum.AddForumActivity
 import com.example.techkis.ui.users.LoginActivity
 import com.example.techkis.ui.users.ProfileActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_add_forum.*
 import kotlinx.android.synthetic.main.activity_forum.*
+import kotlinx.android.synthetic.main.activity_forum.btn_addForum_forum
 import kotlinx.android.synthetic.main.nav_header_layout.view.*
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class ForumActivity : AppCompatActivity() {
 
@@ -31,9 +44,12 @@ class ForumActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mMenu: Menu
     private lateinit var mNavHeaderView: View
+    private lateinit var mForumAdapter: ForumAdapter
 
     private lateinit var sharedPref: SharedPreferences
     private var NAME_PREF = "com-example-techkis"
+
+    private lateinit var arrayListForum: ArrayList<ForumModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,8 +77,45 @@ class ForumActivity : AppCompatActivity() {
         navView_forum.setNavigationItemSelectedListener(onNavigationItemSelectedListener())
 
         btn_addForum_forum.setOnClickListener {
-
+            val intent = Intent(this, AddForumActivity::class.java)
+            startActivity(intent)
         }
+
+        arrayListForum = arrayListOf()
+
+        getDataForumFromDB()
+    }
+
+    private fun getDataForumFromDB(){
+        mDatabase.child("forums").orderByChild("timestampForum").addValueEventListener(
+            object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                }
+                override fun onDataChange(p0: DataSnapshot) {
+                    if(p0.exists()){
+                        arrayListForum.clear()
+                        for (forumSnapshot in p0.children){
+                            val forums = forumSnapshot.getValue(ForumModel::class.java)
+                            arrayListForum.add(forums!!)
+
+                        }
+                        arrayListForum.reverse()
+                        initForumRecyclerView(arrayListForum)
+                    }
+                }
+            }
+        )
+    }
+
+    private fun initForumRecyclerView(listForum: ArrayList<ForumModel>){
+        println("Data_result: $listForum")
+        rv_listForum_forum.apply {
+            layoutManager = LinearLayoutManager(this@ForumActivity)
+            mForumAdapter = ForumAdapter()
+            mForumAdapter.forumAdapter(listForum)
+            this.adapter = mForumAdapter
+        }
+
     }
 
     /** BAGIAN NAVIGATION VIEW / DRAWER NAVIGATION DAN TOOLBAR **/
@@ -97,6 +150,7 @@ class ForumActivity : AppCompatActivity() {
             return true
         }
     }
+
     private fun getDataUserFromPref(){
         val uid = sharedPref.getString("USER_ID",null)
         val fullName = sharedPref.getString("FULL_NAME",null)
@@ -124,6 +178,7 @@ class ForumActivity : AppCompatActivity() {
             updateAdminUI(role)
         }
     }
+
     private fun updateAdminUI(role: String){
         if(role == "admin"){
             val menuAdmin = mMenu.findItem(R.id.nav_admin_menu)

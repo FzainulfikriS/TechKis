@@ -29,7 +29,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/et_title_addForum"
+                android:id="@+id/etLayout_title_addForum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Judul forum"
@@ -42,11 +42,13 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:layout_constraintTop_toTopOf="parent">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_title_addForum"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etLayout_isi_addForum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Isi forum"
@@ -58,6 +60,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:layout_constraintTop_toBottomOf="@+id/et_title_addForum">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_isiForum_addForum"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -67,7 +70,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/btn_addForum_forum"
+        android:id="@+id/btn_addForum_addForum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"

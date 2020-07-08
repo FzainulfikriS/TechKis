@@ -13,6 +13,11 @@ import java.util.*
 class ForumAdapter:RecyclerView.Adapter<ForumAdapter.ViewHolder>() {
 
     private var dataForum: List<ForumModel> = ArrayList()
+    private lateinit var itemClick: ItemClickListener
+
+    interface ItemClickListener {
+        fun onItemClickListener(forumModel: ForumModel)
+    }
 
     inner class ViewHolder(view:View): RecyclerView.ViewHolder(view){
         val judulForum = view.tv_title_forum
@@ -21,7 +26,7 @@ class ForumAdapter:RecyclerView.Adapter<ForumAdapter.ViewHolder>() {
         val tanggalUpload = view.tv_tanggal_forum
         val jamUpload = view.tv_jam_forum
 
-        fun onBind(forumModel: ForumModel){
+        fun onBind(forumModel: ForumModel, itemClickListener: ItemClickListener){
             judulForum.text = forumModel.judulForum
             namaAuthor.text = forumModel.namaAuthor
             commentCount.text = forumModel.commentCount.toString()
@@ -29,11 +34,16 @@ class ForumAdapter:RecyclerView.Adapter<ForumAdapter.ViewHolder>() {
             timestamp.timeInMillis = forumModel.timestampForum * 1000L
             tanggalUpload.text = DateFormat.format("E, dd MMM yyyy",timestamp).toString()
             jamUpload.text = DateFormat.format("mm:hh a",timestamp).toString()
+
+            itemView.setOnClickListener {
+                itemClickListener.onItemClickListener(forumModel)
+            }
         }
     }
 
-    fun forumAdapter(forumList: List<ForumModel>){
+    fun forumAdapter(forumList: List<ForumModel>,itemClickListener: ItemClickListener){
         dataForum = forumList
+        itemClick = itemClickListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -47,6 +57,6 @@ class ForumAdapter:RecyclerView.Adapter<ForumAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.onBind(dataForum.get(position))
+        holder.onBind(dataForum.get(position),itemClick)
     }
 }

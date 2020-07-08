@@ -17,6 +17,7 @@ import com.example.techkis.adapter.ForumAdapter
 import com.example.techkis.model.ForumModel
 import com.example.techkis.ui.admin.AddNewsActivity
 import com.example.techkis.ui.forum.AddForumActivity
+import com.example.techkis.ui.forum.DetailForumActivity
 import com.example.techkis.ui.users.LoginActivity
 import com.example.techkis.ui.users.ProfileActivity
 import com.google.android.material.navigation.NavigationView
@@ -38,7 +39,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-class ForumActivity : AppCompatActivity() {
+class ForumActivity : AppCompatActivity(), ForumAdapter.ItemClickListener {
 
     private lateinit var mDatabase: DatabaseReference
     private lateinit var mAuth: FirebaseAuth
@@ -112,7 +113,7 @@ class ForumActivity : AppCompatActivity() {
         rv_listForum_forum.apply {
             layoutManager = LinearLayoutManager(this@ForumActivity)
             mForumAdapter = ForumAdapter()
-            mForumAdapter.forumAdapter(listForum)
+            mForumAdapter.forumAdapter(listForum,this@ForumActivity)
             this.adapter = mForumAdapter
         }
 
@@ -184,5 +185,10 @@ class ForumActivity : AppCompatActivity() {
             val menuAdmin = mMenu.findItem(R.id.nav_admin_menu)
             menuAdmin.setVisible(true)
         }
+    }
+
+    override fun onItemClickListener(forumModel: ForumModel) {
+        val intent = Intent(this, DetailForumActivity::class.java)
+        startActivity(intent)
     }
 }

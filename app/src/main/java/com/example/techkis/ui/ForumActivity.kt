@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.techkis.R
 import com.example.techkis.adapter.ForumAdapter
 import com.example.techkis.model.ForumModel
+import com.example.techkis.model.UsersModel
 import com.example.techkis.ui.admin.AddNewsActivity
 import com.example.techkis.ui.forum.AddForumActivity
 import com.example.techkis.ui.forum.DetailForumActivity
@@ -97,18 +98,38 @@ class ForumActivity : AppCompatActivity(), ForumAdapter.ItemClickListener {
                         arrayListForum.clear()
                         for (forumSnapshot in p0.children){
                             val forums = forumSnapshot.getValue(ForumModel::class.java)
-                            arrayListForum.add(forums!!)
-
+                            getDataUser(forums!!)
                         }
-                        arrayListForum.reverse()
-                        initForumRecyclerView(arrayListForum)
                     }
                 }
             }
         )
     }
 
+    private fun getDataUser(dataForum: ForumModel){
+        val userID = dataForum.authorForumID
+        val forumID = dataForum.forumID
+        val judulForum = dataForum.judulForum
+        val isiForum = dataForum.isiForum
+        val commentCount = dataForum.commentCount
+        val timestampForum = dataForum.timestampForum
+        mDatabase.child("users").child(userID).addListenerForSingleValueEvent(
+            object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                }
+                override fun onDataChange(p0: DataSnapshot) {
+                    val users = p0.getValue(UsersModel::class.java)
+                    arrayListForum.add(
+                        ForumModel(forumID,judulForum,isiForum,userID,users?.fullName.toString(),commentCount,timestampForum)
+                    )
+                    initForumRecyclerView(arrayListForum)
+                }
+            }
+        )
+    }
+
     private fun initForumRecyclerView(listForum: ArrayList<ForumModel>){
+        listForum.reverse()
         println("Data_result: $listForum")
         rv_listForum_forum.apply {
             layoutManager = LinearLayoutManager(this@ForumActivity)
@@ -189,6 +210,11 @@ class ForumActivity : AppCompatActivity(), ForumAdapter.ItemClickListener {
 
     override fun onItemClickListener(forumModel: ForumModel) {
         val intent = Intent(this, DetailForumActivity::class.java)
+        intent.putExtra("TITLE_FORUM",forumModel.judulForum)
+        intent.putExtra("ISI_FORUM",forumModel.isiForum)
+        intent.putExtra("NAMA_AUTHOR",forumModel.namaAuthor)
+        intent.putExtra("TIMESTAMP_FORUM",forumModel.timestampForum)
+        intent.putExtra("FORUM_ID",forumModel.forumID)
         startActivity(intent)
     }
 }

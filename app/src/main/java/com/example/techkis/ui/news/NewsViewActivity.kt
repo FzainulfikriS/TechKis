@@ -100,8 +100,15 @@ class NewsViewActivity : AppCompatActivity(), NewsCommentAdapter.ItemClickListen
             }
         }
         btn_comment_newsView.setOnClickListener {
-            btn_comment_newsView.isEnabled = false
-            validasiComment()
+            if(currentUser == null){
+                titleDialog = "Failed to post comment"
+                showDialog(titleDialog)
+            }
+            else{
+                btn_comment_newsView.isEnabled = false
+                validasiComment()
+            }
+
         }
     }
 

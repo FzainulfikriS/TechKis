@@ -1,6 +1,7 @@
 package com.example.techkis.ui
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.techkis.R
@@ -35,6 +37,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_add_forum.*
 import kotlinx.android.synthetic.main.activity_forum.*
 import kotlinx.android.synthetic.main.activity_forum.btn_addForum_forum
+import kotlinx.android.synthetic.main.activity_news_view.*
 import kotlinx.android.synthetic.main.nav_header_layout.view.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -78,14 +81,39 @@ class ForumActivity : AppCompatActivity(), ForumAdapter.ItemClickListener {
         menuToggle.syncState()
         navView_forum.setNavigationItemSelectedListener(onNavigationItemSelectedListener())
 
+        var titleDialog = ""
+        val currentUser = mAuth.currentUser
         btn_addForum_forum.setOnClickListener {
-            val intent = Intent(this, AddForumActivity::class.java)
-            startActivity(intent)
+            if(currentUser == null){
+                titleDialog = "You cannot create a forum"
+                showDialog(titleDialog)
+            }
+            else{
+                val intent = Intent(this, AddForumActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         arrayListForum = arrayListOf()
 
         getDataForumFromDB()
+    }
+    private fun showDialog(title: String){
+        val alertDialogBuilder = AlertDialog.Builder(this)
+        alertDialogBuilder.apply {
+            this.setTitle(title)
+            this.setMessage("Sorry! You haven't signed yet, please sign in first :)")
+            this.setPositiveButton("Go to Login",
+                DialogInterface.OnClickListener { dialog, id ->
+                    startActivity(Intent(this@ForumActivity,
+                        LoginActivity::class.java))
+                })
+            this.setNegativeButton("Cancel",
+                DialogInterface.OnClickListener { dialog, i ->
+                    dialog.cancel()
+                })
+        }
+        alertDialogBuilder.create().show()
     }
 
     private fun getDataForumFromDB(){

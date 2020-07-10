@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.forum.DetailForumActivity"></activity>
+        <activity android:name=".ui.forum.EditForumActivity"></activity>
+        <activity android:name=".ui.forum.DetailForumActivity" />
         <activity
             android:name=".ui.forum.AddForumActivity"
             android:parentActivityName=".ui.ForumActivity" />

@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.techkis.R
@@ -72,6 +73,23 @@ class HomeActivity : AppCompatActivity(), NewsAdapter.OnItemClickListener {
         )
         drawerLayout_home.addDrawerListener(toggle)
         toggle.syncState()
+
+        btn_searchNews_home.setOnClickListener {
+            if(lin_search_home.visibility == View.GONE)
+                lin_search_home.visibility = View.VISIBLE
+            else lin_search_home.visibility = View.GONE
+        }
+
+        sv_news_home.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                mNewsAdapter?.filter?.filter(newText)
+                return false
+            }
+        })
 
         getDataUserFromPref()
     }

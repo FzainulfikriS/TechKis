@@ -27,14 +27,22 @@
             android:maxHeight="?attr/actionBarSize"
             android:background="@drawable/background_profile"
             android:elevation="8dp"
+            android:gravity="end"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="18dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Forum"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:layout_centerVertical="true"/>
                 <ImageView
                     android:id="@+id/btn_addForum_forum"
                     android:layout_width="wrap_content"

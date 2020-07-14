@@ -9,8 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.forum.EditForumActivity"></activity>
-        <activity android:name=".ui.forum.DetailForumActivity" />
+        <activity android:name=".ui.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.forum.EditForumActivity"
+            android:parentActivityName=".ui.forum.DetailForumActivity" />
+        <activity
+            android:name=".ui.forum.DetailForumActivity"
+            android:parentActivityName=".ui.ForumActivity" />
         <activity
             android:name=".ui.forum.AddForumActivity"
             android:parentActivityName=".ui.ForumActivity" />
@@ -23,11 +34,6 @@
             android:name=".ui.news.NewsViewActivity"
             android:parentActivityName=".ui.HomeActivity" />
         <activity android:name=".ui.HomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".ui.users.RegisterActivity" />
         <activity android:name=".ui.users.LoginActivity" />

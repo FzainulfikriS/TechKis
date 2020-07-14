@@ -56,11 +56,21 @@ class AddForumActivity : AppCompatActivity() {
         mDatabase.child("forums").child(forumID).setValue(forums)
             .addOnCompleteListener {
                 if (it.isSuccessful){
+                    updateUser(forumID)
                     val intent = Intent(this,ForumActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(intent)
                 }
             }
+    }
+
+    private fun updateUser(forumID: String){
+        val authorForumID = mAuth.currentUser?.uid.toString()
+        val userRef = mDatabase.child("users").child(authorForumID).child("forums")
+
+        val halo = hashMapOf(Pair<String,Any>(forumID,true))
+
+        userRef.child(forumID).setValue(halo)
     }
 
     private fun validasiForm(){

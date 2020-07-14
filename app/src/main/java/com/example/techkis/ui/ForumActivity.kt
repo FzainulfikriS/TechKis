@@ -70,7 +70,6 @@ class ForumActivity : AppCompatActivity(), ForumAdapter.ItemClickListener {
 
         /** SET TOOLBAR **/
         setSupportActionBar(toolbar_forum)
-        supportActionBar?.setTitle("Froum")
 
         /** SET DRAWER NAVIGATION **/
         navView_forum.bringToFront()
@@ -238,10 +237,6 @@ class ForumActivity : AppCompatActivity(), ForumAdapter.ItemClickListener {
 
     override fun onItemClickListener(forumModel: ForumModel) {
         val intent = Intent(this, DetailForumActivity::class.java)
-        intent.putExtra("TITLE_FORUM",forumModel.judulForum)
-        intent.putExtra("ISI_FORUM",forumModel.isiForum)
-        intent.putExtra("NAMA_AUTHOR",forumModel.namaAuthor)
-        intent.putExtra("TIMESTAMP_FORUM",forumModel.timestampForum)
         intent.putExtra("FORUM_ID",forumModel.forumID)
         startActivity(intent)
     }

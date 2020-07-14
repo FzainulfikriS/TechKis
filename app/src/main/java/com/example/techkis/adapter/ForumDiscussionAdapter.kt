@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.techkis.R
 import com.example.techkis.model.DiscussionForumModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.rv_discussion_layout.view.*
 import java.util.*
@@ -14,6 +17,7 @@ import java.util.*
 class ForumDiscussionAdapter:RecyclerView.Adapter<ForumDiscussionAdapter.ViewHolder>() {
 
     private lateinit var diskusiList: List<DiscussionForumModel>
+    private lateinit var clickListener: ItemClickListener
 
     class ViewHolder(
         v:View
@@ -23,18 +27,23 @@ class ForumDiscussionAdapter:RecyclerView.Adapter<ForumDiscussionAdapter.ViewHol
         val timestampDisc = v.tv_timestampForum_discLayout
         val isiForum = v.tv_isi_discLayout
 
-        fun onBind(discussionModel: DiscussionForumModel){
+        fun onBind(discussionModel: DiscussionForumModel,clickListener: ItemClickListener,position: Int){
             namaUser.text = discussionModel.userNama
             isiForum.text = discussionModel.isiDiskusi
             val timestamp = Calendar.getInstance()
             timestamp.timeInMillis = discussionModel.timestampDiskusi * 1000
             timestampDisc.text = DateFormat.format("MMM, dd yyyy mm:hh a",timestamp).toString()
             Picasso.get().load(discussionModel.userImage).into(imageUser)
+
+            itemView.setOnClickListener {
+                clickListener.itemClickListener(discussionModel,position)
+            }
         }
     }
 
-    fun diskusiAdapter(diskusiList: List<DiscussionForumModel>){
+    fun diskusiAdapter(diskusiList: List<DiscussionForumModel>,clickListener: ItemClickListener){
         this.diskusiList = diskusiList
+        this.clickListener = clickListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -48,6 +57,10 @@ class ForumDiscussionAdapter:RecyclerView.Adapter<ForumDiscussionAdapter.ViewHol
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.onBind(diskusiList.get(position))
+        holder.onBind(diskusiList.get(position),clickListener,position)
+    }
+
+    interface ItemClickListener{
+        fun itemClickListener(discussionModel: DiscussionForumModel,position: Int)
     }
 }

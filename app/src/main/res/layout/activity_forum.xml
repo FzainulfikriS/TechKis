@@ -63,12 +63,25 @@
 
         </androidx.appcompat.widget.Toolbar>
 
+        <LinearLayout
+            android:id="@+id/lin_search_forum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FF9573"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_forum">
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/sv_forum_forum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_listForum_forum"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_forum"
+            app:layout_constraintTop_toBottomOf="@+id/lin_search_forum"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>

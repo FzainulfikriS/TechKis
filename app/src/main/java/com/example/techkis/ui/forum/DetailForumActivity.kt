@@ -177,6 +177,7 @@ class DetailForumActivity : AppCompatActivity(), ForumDiscussionAdapter.ItemClic
                         isiForum = forum.isiForum
                         authorName = forum.namaAuthor
                         forumTimestamp = forum.timestampForum
+                        supportActionBar?.setTitle(judulForum)
                         if (forum.authorForumID == currentUserID.toString()) {
                             btn_editForum_detailForum.visibility = View.VISIBLE
                         }
@@ -203,7 +204,7 @@ class DetailForumActivity : AppCompatActivity(), ForumDiscussionAdapter.ItemClic
         tv_isi_detaiForum.text = isiForum
         val timestamp = Calendar.getInstance()
         timestamp.timeInMillis = timestampForum * 1000
-        tv_timestampForum_detailForum.text = DateFormat.format("MMM dd yyyy mm:hh a",timestamp).toString()
+        tv_timestampForum_detailForum.text = DateFormat.format("MMM dd yyyy hh:mm a",timestamp).toString()
         Picasso.get().load(authorImage).into(iv_authorImage_detailForum)
     }
 

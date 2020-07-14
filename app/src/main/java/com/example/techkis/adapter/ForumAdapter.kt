@@ -4,15 +4,19 @@ import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.example.techkis.R
 import com.example.techkis.model.ForumModel
 import kotlinx.android.synthetic.main.rv_forum_layout.view.*
 import java.util.*
+import kotlin.collections.ArrayList
 
-class ForumAdapter:RecyclerView.Adapter<ForumAdapter.ViewHolder>() {
+class ForumAdapter:RecyclerView.Adapter<ForumAdapter.ViewHolder>(),Filterable {
 
     private var dataForum: List<ForumModel> = ArrayList()
+    private lateinit var allDataForum: List<ForumModel>
     private lateinit var itemClick: ItemClickListener
 
     interface ItemClickListener {
@@ -33,7 +37,7 @@ class ForumAdapter:RecyclerView.Adapter<ForumAdapter.ViewHolder>() {
             val timestamp = Calendar.getInstance()
             timestamp.timeInMillis = forumModel.timestampForum * 1000L
             tanggalUpload.text = DateFormat.format("E, dd MMM yyyy",timestamp).toString()
-            jamUpload.text = DateFormat.format("mm:hh a",timestamp).toString()
+            jamUpload.text = DateFormat.format("hh:mm a",timestamp).toString()
 
             itemView.setOnClickListener {
                 itemClickListener.onItemClickListener(forumModel)
@@ -43,6 +47,7 @@ class ForumAdapter:RecyclerView.Adapter<ForumAdapter.ViewHolder>() {
 
     fun forumAdapter(forumList: List<ForumModel>,itemClickListener: ItemClickListener){
         dataForum = forumList
+        allDataForum = ArrayList<ForumModel>(forumList)
         itemClick = itemClickListener
     }
 
@@ -58,5 +63,31 @@ class ForumAdapter:RecyclerView.Adapter<ForumAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.onBind(dataForum.get(position),itemClick)
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter(){
+            override fun performFiltering(p0: CharSequence?): FilterResults {
+                val filteredList = ArrayList<ForumModel>()
+                if(p0 == null || p0.length == 0){
+                    filteredList.addAll(allDataForum)
+                }else{
+                    val filterPattern = p0.toString().toLowerCase().trim()
+                    for(row in allDataForum){
+                        if(row.judulForum.toLowerCase().contains(filterPattern)){
+                            filteredList.add(row)
+                        }
+                    }
+                }
+                val results = FilterResults()
+                results.values = filteredList
+                return results
+            }
+
+            override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
+                dataForum = p1?.values as List<ForumModel>
+                notifyDataSetChanged()
+            }
+        }
     }
 }

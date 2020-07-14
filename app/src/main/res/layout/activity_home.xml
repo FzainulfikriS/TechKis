@@ -47,7 +47,7 @@
             android:id="@+id/lin_search_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff"
+            android:background="#FF9573"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_home"
             android:visibility="gone">
             <androidx.appcompat.widget.SearchView

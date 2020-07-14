@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.techkis.R
@@ -96,6 +97,22 @@ class ForumActivity : AppCompatActivity(), ForumAdapter.ItemClickListener {
         arrayListForum = arrayListOf()
 
         getDataForumFromDB()
+
+        btn_searchForum_forum.setOnClickListener {
+            if(lin_search_forum.visibility == View.GONE){
+                lin_search_forum.visibility = View.VISIBLE
+            }else lin_search_forum.visibility = View.GONE
+        }
+
+        sv_forum_forum.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                TODO("Not yet implemented")
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                mForumAdapter.filter.filter(newText)
+                return false
+            }
+        })
     }
     private fun showDialog(title: String){
         val alertDialogBuilder = AlertDialog.Builder(this)

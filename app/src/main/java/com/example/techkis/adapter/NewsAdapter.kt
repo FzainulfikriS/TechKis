@@ -94,11 +94,6 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.ViewHolder>(), Filterable {
                 filteredList.addAll(itemsAll)
             }else{
                 val filterPattern = p0.toString().toLowerCase().trim()
-//                itemsAll.forEach {
-//                    if(it.title.toLowerCase().contains(filterPattern)){
-//                        filteredList.add(it)
-//                    }
-//                }
                 for (row in itemsAll){
                     if(row.title.toLowerCase().contains(filterPattern)){
                         filteredList.add(row)

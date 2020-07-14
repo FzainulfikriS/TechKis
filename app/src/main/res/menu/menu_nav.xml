@@ -35,9 +35,6 @@
         android:visible="false">
         <menu>
             <item
-                android:id="@+id/nav_manageNews_menu"
-                android:title="Manage News" />
-            <item
                 android:id="@+id/nav_addNews_menu"
                 android:title="Add News" />
         </menu>

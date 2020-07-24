@@ -16,10 +16,6 @@
                     android:visible="false"
                     android:title="Profile" />
                 <item
-                    android:id="@+id/nav_bookmark_menu"
-                    android:visible="false"
-                    android:title="Bookmark" />
-                <item
                     android:id="@+id/nav_signout_menu"
                     android:visible="false"
                     android:title="Sign Out" />

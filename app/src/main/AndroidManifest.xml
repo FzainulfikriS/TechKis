@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.techkis">
+    package="com.pukis.techkis">
 
     <application
         android:allowBackup="true"
@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.SplashActivity">
+        <activity android:name="com.pukis.techkis.ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,26 +17,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.forum.EditForumActivity"
-            android:parentActivityName=".ui.forum.DetailForumActivity" />
+            android:name="com.pukis.techkis.ui.forum.EditForumActivity"
+            android:parentActivityName="com.pukis.techkis.ui.forum.DetailForumActivity" />
         <activity
-            android:name=".ui.forum.DetailForumActivity"
-            android:parentActivityName=".ui.ForumActivity" />
+            android:name="com.pukis.techkis.ui.forum.DetailForumActivity"
+            android:parentActivityName="com.pukis.techkis.ui.ForumActivity" />
         <activity
-            android:name=".ui.forum.AddForumActivity"
-            android:parentActivityName=".ui.ForumActivity" />
-        <activity android:name=".ui.ForumActivity" />
-        <activity android:name=".ui.users.ProfileActivity" />
+            android:name="com.pukis.techkis.ui.forum.AddForumActivity"
+            android:parentActivityName="com.pukis.techkis.ui.ForumActivity" />
+        <activity android:name="com.pukis.techkis.ui.ForumActivity" />
+        <activity android:name="com.pukis.techkis.ui.users.ProfileActivity" />
         <activity
-            android:name=".ui.admin.AddNewsActivity"
-            android:parentActivityName=".ui.HomeActivity" />
+            android:name="com.pukis.techkis.ui.admin.AddNewsActivity"
+            android:parentActivityName="com.pukis.techkis.ui.HomeActivity" />
         <activity
-            android:name=".ui.news.NewsViewActivity"
-            android:parentActivityName=".ui.HomeActivity" />
-        <activity android:name=".ui.HomeActivity">
-        </activity>
-        <activity android:name=".ui.users.RegisterActivity" />
-        <activity android:name=".ui.users.LoginActivity" />
+            android:name="com.pukis.techkis.ui.news.NewsViewActivity"
+            android:parentActivityName="com.pukis.techkis.ui.HomeActivity" />
+        <activity android:name="com.pukis.techkis.ui.HomeActivity"/>
+        <activity android:name="com.pukis.techkis.ui.users.RegisterActivity" />
+        <activity android:name="com.pukis.techkis.ui.users.LoginActivity" />
     </application>
 
 </manifest>

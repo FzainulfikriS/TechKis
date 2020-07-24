@@ -37,13 +37,6 @@
             android:textColor="#000"
             android:textSize="24sp"
             android:textStyle="bold" />
-
-        <ImageButton
-            android:id="@+id/btn_bookmark_newsView"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:background="@drawable/ic_bookmark_unclick" />
-
     </LinearLayout>
 
     <View
